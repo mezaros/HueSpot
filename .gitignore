@@ -1,0 +1,19 @@
+# macOS
+.DS_Store
+
+# Xcode user/state
+*.xcuserstate
+xcuserdata/
+
+# Build products and DerivedData
+Build/
+BuildSigned/
+DerivedData/
+
+# Coverage/profiling artifacts
+*.profraw
+*.profdata
+default.profraw
+
+# Local/generated analysis data
+coolors_colors_*.tsv
