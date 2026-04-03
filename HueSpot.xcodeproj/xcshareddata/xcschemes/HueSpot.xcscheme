@@ -20,8 +20,8 @@
          <ExecutionAction
             ActionType = "Xcode.IDEStandardExecutionActionsCore.ExecutionActionType.ShellScriptAction">
             <ActionContent
-               title = "Sync App To User Applications"
-               scriptText = "src=&quot;$(/bin/ls -dt &quot;$HOME&quot;/Library/Developer/Xcode/DerivedData/HueSpot-*/Build/Products/Debug/HueSpot.app 2&gt;/dev/null | /usr/bin/head -n 1)&quot;&#10;dst=&quot;$HOME/Applications/HueSpot.app&quot;&#10;/bin/mkdir -p &quot;$HOME/Applications&quot;&#10;if [ -n &quot;$src&quot; ] &amp;&amp; [ -d &quot;$src&quot; ] &amp;&amp; [ &quot;$src&quot; != &quot;$dst&quot; ]; then&#10;  /usr/bin/ditto &quot;$src&quot; &quot;$dst&quot; || true&#10;fi"
+               title = "Sync App To Applications"
+               scriptText = "src=&quot;$(/bin/ls -dt &quot;$HOME&quot;/Library/Developer/Xcode/DerivedData/HueSpot-*/Build/Products/Debug/HueSpot.app 2&gt;/dev/null | /usr/bin/head -n 1)&quot;&#10;sys_dst=&quot;/Applications/HueSpot.app&quot;&#10;user_dst=&quot;$HOME/Applications/HueSpot.app&quot;&#10;if [ -z &quot;$src&quot; ] || [ ! -d &quot;$src&quot; ]; then&#10;  echo &quot;HueSpot sync skipped: no built app found&quot;&#10;  exit 0&#10;fi&#10;if [ -w &quot;/Applications&quot; ]; then&#10;  dst=&quot;$sys_dst&quot;&#10;else&#10;  /bin/mkdir -p &quot;$HOME/Applications&quot;&#10;  dst=&quot;$user_dst&quot;&#10;fi&#10;if [ &quot;$src&quot; != &quot;$dst&quot; ]; then&#10;  /usr/bin/ditto &quot;$src&quot; &quot;$dst&quot;&#10;fi&#10;echo &quot;HueSpot synced to: $dst&quot;"
                shellToInvoke = "/bin/sh">
             </ActionContent>
          </ExecutionAction>
@@ -74,7 +74,7 @@
          </TestableReference>
       </Testables>
    </TestAction>
-   <LaunchAction
+      <LaunchAction
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = ""
       selectedLauncherIdentifier = "Xcode.IDEFoundation.Launcher.PosixSpawn"
@@ -87,7 +87,7 @@
       allowLocationSimulation = "YES">
       <PathRunnable
          runnableDebuggingMode = "0"
-         FilePath = "/usr/bin/open">
+         FilePath = "/bin/sh">
       </PathRunnable>
       <MacroExpansion>
          <BuildableReference
@@ -100,11 +100,11 @@
       </MacroExpansion>
       <CommandLineArguments>
          <CommandLineArgument
-            argument = "-na"
+            argument = "-lc"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "~/Applications/HueSpot.app"
+            argument = "if [ -d /Applications/HueSpot.app ]; then /usr/bin/open -na /Applications/HueSpot.app; else /usr/bin/open -na &quot;$HOME/Applications/HueSpot.app&quot;; fi"
             isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>
